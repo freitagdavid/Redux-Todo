@@ -58,43 +58,35 @@ const Checkmark = styled.span`
     margin-right: 15px;
 `;
 
-class Todo extends Component {
-    markComplete(event) {
-        console.log(event.target.id);
-        this.props.toggleTask(event.target.id);
+const Todo = ({ toggleTask, removeTask, complete, id, text }) => {
+    function markComplete({ target: { id } }) {
+        toggleTask(id);
     }
 
-    deleteTask(event) {
-        console.log(event.target.id);
-        this.props.removeTask(event.target.id);
+    function deleteTask({ target: { id } }) {
+        removeTask(id);
     }
 
-    render() {
-        return (
-            <Li>
-                <Checkbox
-                    checked={this.props.complete}
-                    name="taskCheck"
-                    type="checkbox"
-                    onChange={event => this.markComplete(event)}
-                    id={this.props.id}
-                />
-                <Label htmlFor={this.props.id}>
-                    <Checkmark>
-                        <span />
-                    </Checkmark>
-                    {this.props.text}
-                </Label>
-                {/* {this.props.text} */}
-                <Button
-                    id={this.props.id}
-                    name="remove"
-                    onClick={event => this.deleteTask(event)}>
-                    X
-                </Button>
-            </Li>
-        );
-    }
-}
+    return (
+        <Li>
+            <Checkbox
+                checked={complete}
+                name="taskCheck"
+                type="checkbox"
+                onChange={event => markComplete(event)}
+                id={id}
+            />
+            <Label htmlFor={id}>
+                <Checkmark>
+                    <span />
+                </Checkmark>
+                {text}
+            </Label>
+            <Button id={id} name="remove" onClick={event => deleteTask(event)}>
+                X
+            </Button>
+        </Li>
+    );
+};
 
 export default Todo;
